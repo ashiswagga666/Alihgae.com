@@ -1,0 +1,85 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\BerandaController;
+use App\Http\Controllers\LowonganController;
+use App\Http\Controllers\PerusahaanController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardPerusahaanController;
+use App\Http\Controllers\LamaranController;
+use App\Http\Controllers\ProfilController;
+
+// ─── Halaman Publik ───────────────────────────────────────
+Route::middleware('web')->group(function () {
+    Route::get('/', [BerandaController::class, 'index'])->name('beranda');
+    Route::get('/lowongan', [LowonganController::class, 'index'])->name('lowongan');
+    Route::get('/lowongan/{id}', [LowonganController::class, 'detail'])->name('lowongan.detail');
+    Route::get('/perusahaan', [PerusahaanController::class, 'index'])->name('perusahaan');
+    Route::get('/perusahaan/{id}', [PerusahaanController::class, 'detail'])->name('perusahaan.detail');
+    Route::get('/blog', fn() => view('blog'))->name('blog');
+});
+
+// ─── Guest Routes ─────────────────────────────────────────
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
+});
+
+// ─── Logout ───────────────────────────────────────────────
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// ── Protected Routes ─────────────────────────────────────
+Route::middleware('auth')->group(function () {
+
+    Route::get('/dashboard', function () {
+        return match (Auth::user()->role) {
+            'admin'      => redirect('/admin'),
+            'perusahaan' => redirect()->route('perusahaan.dashboard'),
+            default      => redirect()->route('pelamar.profil'),
+        };
+    })->name('dashboard');
+
+    // Admin
+    Route::get('/dashboard/admin', fn() => redirect('/admin'))->name('admin.dashboard');
+
+    // Profil Pelamar
+    Route::get('/profil', [ProfilController::class, 'index'])->name('pelamar.profil');
+
+    // ── DASHBOARD PERUSAHAAN ─────────────────────────────
+    Route::prefix('dashboard/perusahaan')->name('perusahaan.')->group(function () {
+
+        Route::get('/', [DashboardPerusahaanController::class, 'index'])
+             ->name('dashboard');
+
+        // CRUD Lowongan
+        Route::get('/lowongan/buat', [DashboardPerusahaanController::class, 'create'])
+             ->name('lowongan.create');
+        Route::post('/lowongan', [DashboardPerusahaanController::class, 'store'])
+             ->name('lowongan.store');
+        Route::get('/lowongan/{id}/edit', [DashboardPerusahaanController::class, 'edit'])
+             ->name('lowongan.edit');
+        Route::put('/lowongan/{id}', [DashboardPerusahaanController::class, 'update'])
+             ->name('lowongan.update');
+        Route::delete('/lowongan/{id}', [DashboardPerusahaanController::class, 'destroy'])
+             ->name('lowongan.destroy');
+
+        // Lihat Pelamar per Lowongan
+        Route::get('/lowongan/{id}/pelamar', [DashboardPerusahaanController::class, 'pelamar'])
+             ->name('lowongan.pelamar');
+
+        // Update Status Lamaran
+        Route::post('/lamaran/{lamaran}/status', [DashboardPerusahaanController::class, 'updateStatus'])
+             ->name('lamaran.status');
+    });
+});
+// Halaman Lowongan
+Route::get('/lowongan', [App\Http\Controllers\LowonganController::class, 'index'])->name('lowongan.index');
+Route::get('/lowongan/{id}', [App\Http\Controllers\LowonganController::class, 'detail'])->name('lowongan.detail');
+
+
+// Halaman Lowongan
+Route::get('/lowongan', [App\Http\Controllers\LowonganController::class, 'index'])->name('lowongan.index');
+Route::get('/lowongan/{id}', [App\Http\Controllers\LowonganController::class, 'detail'])->name('lowongan.detail');
