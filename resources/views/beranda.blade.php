@@ -3,10 +3,10 @@
 @section('content')
 
 {{-- Hero --}}
-<x-hero></x-hero>
+<x-hero :total-jobs="$totalJobs"></x-hero>
 
 {{-- Stats --}}
-<section class="bg-green-950 py-16 border-t border-white/5">
+<section class="bg-green-950 py-16">
     <div class="container mx-auto px-6">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div class="bg-black/30 border border-teal-900/50 p-8 rounded-3xl hover:border-teal-700/50 transition-all">

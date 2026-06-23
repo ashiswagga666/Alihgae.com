@@ -1,3 +1,5 @@
+@props(['totalJobs' => 0])
+
 {{-- Hero Section --}}
 <section class="relative bg-gradient-to-br from-emerald-800 via-green-700 to-emerald-900 overflow-hidden py-20 px-4">
 
@@ -7,7 +9,7 @@
     <div class="relative max-w-3xl mx-auto text-center">
 
         <p class="inline-block text-xs font-semibold text-emerald-200 tracking-widest uppercase mb-5">
-            ✦ {{ $totalJobs ?? ($siteSettings['hero_badge_count'] ?? '13') }}+ Lowongan Aktif Sekarang
+            ✦ {{ $totalJobs }}+ Lowongan Aktif Sekarang
         </p>
 
         <h1 class="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-3">
@@ -66,26 +68,5 @@
             @endforeach
         </div>
 
-    </div>
-</section>
-
-{{-- Stats Bar --}}
-<section class="bg-white py-8 px-4 shadow-sm">
-    <div class="max-w-4xl mx-auto grid grid-cols-3 gap-4 text-center">
-        <div class="p-4">
-            <p class="text-2xl font-extrabold text-gray-900">{{ $totalJobs ?? '13' }}+</p>
-            <p class="text-xs text-gray-500 mt-1">🏢 Lowongan</p>
-            <p class="text-xs text-emerald-600 font-medium">Aktif sekarang</p>
-        </div>
-        <div class="border-l border-r border-gray-100 p-4">
-            <p class="text-2xl font-extrabold text-gray-900">{{ $totalCompanies ?? '8' }}+</p>
-            <p class="text-xs text-gray-500 mt-1">🏗 Perusahaan</p>
-            <p class="text-xs text-emerald-600 font-medium">Terverifikasi</p>
-        </div>
-        <div class="p-4">
-            <p class="text-2xl font-extrabold text-gray-900">{{ $totalApplicants ?? '0' }}+</p>
-            <p class="text-xs text-gray-500 mt-1">👥 Pencari</p>
-            <p class="text-xs text-emerald-600 font-medium">Sudah daftar</p>
-        </div>
     </div>
 </section>
