@@ -5,14 +5,14 @@
 <section class="bg-gray-50 py-10">
 <div class="max-w-5xl mx-auto px-6">
 
-    <a href="{{ route('perusahaan') }}" class="inline-flex items-center gap-2 text-sm text-blue-600 hover:underline mb-6">
+    <a href="{{ route('perusahaan') }}" class="inline-flex items-center gap-2 text-sm text-green-600 hover:underline mb-6">
         <i class="fas fa-arrow-left"></i> Kembali ke Perusahaan
     </a>
 
     {{-- Header --}}
     <div class="bg-white rounded-2xl shadow-sm p-6 mb-6 border border-gray-100">
         <div class="flex items-center gap-5">
-            <div class="w-20 h-20 bg-blue-50 rounded-2xl flex items-center justify-center text-4xl overflow-hidden flex-shrink-0">
+            <div class="w-20 h-20 bg-green-50 rounded-2xl flex items-center justify-center text-4xl overflow-hidden flex-shrink-0">
                 @if($perusahaan->logo)
                     <img src="{{ asset('storage/'.$perusahaan->logo) }}" class="w-full h-full object-cover">
                 @else 🏢 @endif
@@ -26,7 +26,7 @@
                 </p>
                 <div class="flex gap-2 mt-2 flex-wrap">
                     @if($perusahaan->is_verified)
-                        <span class="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full"><i class="fas fa-check-circle mr-1"></i>Terverifikasi</span>
+                        <span class="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full"><i class="fas fa-check-circle mr-1"></i>Terverifikasi</span>
                     @endif
                     <span class="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full">{{ $perusahaan->job_listings_count }} Lowongan Aktif</span>
                 </div>
@@ -45,7 +45,7 @@
             <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
                 <h2 class="font-bold text-lg text-gray-800 mb-4">💼 Lowongan Tersedia</h2>
                 @forelse($perusahaan->jobListings as $job)
-                <a href="{{ route('lowongan.detail', $job->id) }}" class="block p-4 mb-3 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 transition">
+                <a href="{{ route('lowongan.detail', $job->id) }}" class="block p-4 mb-3 rounded-xl border border-gray-100 hover:border-green-200 hover:bg-green-50 transition">
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="font-semibold text-gray-800">{{ $job->title }}</p>
@@ -70,7 +70,7 @@
                 <div class="flex justify-between"><span class="text-gray-500">Berdiri</span><span class="font-semibold text-right">{{ $perusahaan->founded_year ?? '-' }}</span></div>
                 @if($perusahaan->phone)<div class="flex justify-between"><span class="text-gray-500">Telepon</span><span class="font-semibold text-right">{{ $perusahaan->phone }}</span></div>@endif
                 @if($perusahaan->website)
-                <div class="pt-2"><a href="{{ $perusahaan->website }}" target="_blank" class="text-blue-600 hover:underline text-sm"><i class="fas fa-globe mr-1"></i>Kunjungi Website</a></div>
+                <div class="pt-2"><a href="{{ $perusahaan->website }}" target="_blank" class="text-green-600 hover:underline text-sm"><i class="fas fa-globe mr-1"></i>Kunjungi Website</a></div>
                 @endif
             </div>
         </div>

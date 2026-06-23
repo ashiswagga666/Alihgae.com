@@ -11,7 +11,8 @@ class LowonganController extends Controller
             ->where('is_active', true)
             ->where('deadline', '>=', date('Y-m-d'));
 
-        $keyword = $request->filled('search') ? $request->search : $request->q;
+        // Handle semua variasi nama parameter search
+        $keyword = $request->search ?? $request->q ?? null;
         if ($keyword) {
             $query->where(function($sub) use ($keyword) {
                 $sub->where('title', 'like', "%{$keyword}%")
@@ -20,17 +21,14 @@ class LowonganController extends Controller
             });
         }
 
-        $lokasi = $request->filled('location') ? $request->location : $request->lokasi;
+        // Handle location dari hero (name="location") DAN dari filter bar (name="lokasi")
+        $lokasi = $request->location ?? $request->lokasi ?? null;
         if ($lokasi) {
             $query->where('location', 'like', "%{$lokasi}%");
         }
 
         if ($request->filled('tipe')) {
             $query->where('job_type', $request->tipe);
-        }
-
-        if ($request->filled('pendidikan')) {
-            $query->where('min_education', $request->pendidikan);
         }
 
         $lowongans = $query->latest()->paginate(12)->withQueryString();

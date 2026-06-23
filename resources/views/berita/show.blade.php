@@ -4,7 +4,7 @@
 
 <section class="py-12 bg-gray-50">
     <div class="max-w-4xl mx-auto px-6">
-        <a href="{{ route('berita.index') }}" class="inline-flex items-center gap-2 text-sm text-blue-600 hover:underline mb-6">
+        <a href="{{ route('berita.index') }}" class="inline-flex items-center gap-2 text-sm text-green-600 hover:underline mb-6">
             <i class="fas fa-arrow-left"></i> Kembali ke Berita
         </a>
         <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
@@ -15,7 +15,7 @@
             @endif
             <div class="p-8">
                 <div class="flex flex-wrap items-center gap-2 mb-4">
-                    <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">{{ ucfirst(str_replace('-', ' ', $berita->kategori)) }}</span>
+                    <span class="text-xs font-semibold text-green-600 bg-green-50 px-3 py-1 rounded-full">{{ ucfirst(str_replace('-', ' ', $berita->kategori)) }}</span>
                     @if($berita->is_sponsored)<span class="text-xs text-orange-600 bg-orange-50 px-3 py-1 rounded-full">Sponsor</span>@endif
                 </div>
                 <h1 class="text-3xl font-bold text-gray-800 mb-3">{{ $berita->judul }}</h1>
@@ -34,7 +34,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 @foreach($related as $r)
                 <a href="{{ route('berita.show', $r->slug) }}" class="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition hover:-translate-y-1">
-                    <h4 class="font-semibold text-sm text-gray-800 hover:text-blue-700">{{ $r->judul }}</h4>
+                    <h4 class="font-semibold text-sm text-gray-800 hover:text-green-700">{{ $r->judul }}</h4>
                     <p class="text-xs text-gray-400 mt-1">{{ $r->published_at?->format('d M Y') }}</p>
                 </a>
                 @endforeach

@@ -23,7 +23,7 @@
 
 {{-- Quick Actions --}}
 <div class="flex gap-3 mb-6">
-    <a href="{{ route('perusahaan.lowongan.create') }}" class="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-blue-700 transition flex items-center gap-2">
+    <a href="{{ route('perusahaan.lowongan.create') }}" class="bg-green-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-green-700 transition flex items-center gap-2">
         <i class="fas fa-plus"></i> Buat Lowongan
     </a>
     <a href="{{ route('perusahaan.profil.edit') }}" class="bg-white border border-gray-200 text-gray-700 px-5 py-2.5 rounded-xl font-semibold text-sm hover:bg-gray-50 transition flex items-center gap-2">
@@ -51,10 +51,10 @@
                         </span>
                     </div>
                     <p class="text-xs text-gray-500 mt-1"><i class="fas fa-map-marker-alt mr-1"></i>{{ $lw->location }} • {{ $lw->job_type_label }}</p>
-                    <p class="text-xs text-gray-400 mt-1">Deadline: {{ $lw->deadline?->format('d M Y') }} • <span class="text-blue-600 font-medium">{{ $lw->lamarans_count }} pelamar</span></p>
+                    <p class="text-xs text-gray-400 mt-1">Deadline: {{ $lw->deadline?->format('d M Y') }} • <span class="text-green-600 font-medium">{{ $lw->lamarans_count }} pelamar</span></p>
                 </div>
                 <div class="flex gap-2 flex-shrink-0">
-                    <a href="{{ route('perusahaan.lowongan.pelamar', $lw->id) }}" class="text-xs bg-blue-50 text-blue-600 px-2 py-1.5 rounded-lg hover:bg-blue-100 transition">Pelamar</a>
+                    <a href="{{ route('perusahaan.lowongan.pelamar', $lw->id) }}" class="text-xs bg-green-50 text-green-600 px-2 py-1.5 rounded-lg hover:bg-green-100 transition">Pelamar</a>
                     <a href="{{ route('perusahaan.lowongan.edit', $lw->id) }}" class="text-xs bg-gray-50 text-gray-600 px-2 py-1.5 rounded-lg hover:bg-gray-100 transition">Edit</a>
                     <form method="POST" action="{{ route('perusahaan.lowongan.destroy', $lw->id) }}" onsubmit="return confirm('Hapus lowongan ini?')">
                         @csrf @method('DELETE')
@@ -67,7 +67,7 @@
         <div class="text-center py-12 text-gray-400">
             <i class="fas fa-briefcase text-4xl mb-2"></i>
             <p class="text-sm">Belum ada lowongan</p>
-            <a href="{{ route('perusahaan.lowongan.create') }}" class="mt-2 inline-block text-blue-600 text-sm hover:underline">+ Buat Lowongan Pertama</a>
+            <a href="{{ route('perusahaan.lowongan.create') }}" class="mt-2 inline-block text-green-600 text-sm hover:underline">+ Buat Lowongan Pertama</a>
         </div>
         @endforelse
     </div>

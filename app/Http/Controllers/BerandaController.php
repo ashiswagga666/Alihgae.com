@@ -9,17 +9,34 @@ class BerandaController extends Controller
 {
     public function index()
     {
-        $totalLowongan = JobListing::where('is_active', true)->where('deadline', '>=', date('Y-m-d'))->count();
-        $totalPerusahaan = Company::count();
-        $totalPencari = User::where('role', 'pelamar')->count();
-        $lowonganTerbaru = JobListing::with('company')
-            ->where('is_active', true)
-            ->where('deadline', '>=', date('Y-m-d'))
-            ->latest()
-            ->take(6)
-            ->get();
-        $beritaTerbaru = Berita::where('status', 'published')->latest('published_at')->take(3)->get();
+        try {
+            $totalJobs       = JobListing::where('is_active', true)->where('deadline', '>=', date('Y-m-d'))->count();
+            $totalCompanies  = Company::count();
+            $totalApplicants = User::where('role', 'pelamar')->count();
+            $lowonganTerbaru = JobListing::with('company')
+                ->where('is_active', true)->where('deadline', '>=', date('Y-m-d'))
+                ->latest()->take(6)->get();
+        } catch (\Exception $e) {
+            $totalJobs = $totalCompanies = $totalApplicants = 0;
+            $lowonganTerbaru = collect();
+        }
 
-        return view('beranda', compact('totalLowongan', 'totalPerusahaan', 'totalPencari', 'lowonganTerbaru', 'beritaTerbaru'));
+        // Berita pakai try-catch terpisah karena tabel mungkin belum ada
+        try {
+            $beritaTerbaru = Berita::where('status', 'published')
+                ->latest('published_at')->take(3)->get();
+        } catch (\Exception $e) {
+            $beritaTerbaru = collect();
+        }
+
+        $totalLowongan   = $totalJobs;
+        $totalPerusahaan = $totalCompanies;
+        $totalPencari    = $totalApplicants;
+
+        return view('beranda', compact(
+            'totalJobs','totalCompanies','totalApplicants',
+            'totalLowongan','totalPerusahaan','totalPencari',
+            'lowonganTerbaru','beritaTerbaru'
+        ));
     }
 }

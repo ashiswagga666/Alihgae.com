@@ -3,26 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Dashboard') — {{ $siteSettings['site_name'] ?? 'Alihgae.com' }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        .sidebar-link { @apply flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200; }
-        .sidebar-link:hover { @apply bg-white/10 text-white; }
-        .sidebar-link.active { @apply bg-white text-blue-700 shadow-md; }
-    </style>
     @stack('styles')
 </head>
 <body class="bg-gray-100 min-h-screen flex">
 
 {{-- SIDEBAR --}}
-<aside class="w-64 min-h-screen bg-gradient-to-b from-blue-700 to-blue-900 text-white flex flex-col fixed top-0 left-0 z-30 shadow-2xl">
-    <div class="p-6 border-b border-white/10">
+<aside class="w-60 min-h-screen bg-gradient-to-b from-green-800 to-green-950 text-white flex flex-col fixed top-0 left-0 z-30 shadow-2xl">
+
+    {{-- Logo --}}
+    <div class="p-5 border-b border-white/10">
         <a href="{{ route('beranda') }}" class="flex items-center gap-3">
-            <img src="/{{ $siteSettings['logo_path'] ?? 'images/logo3.png' }}" alt="Logo" class="h-9 w-auto filter brightness-0 invert">
+            <img src="{{ asset($siteSettings['logo_path'] ?? 'images/logo3.png') }}"
+                 alt="Logo" class="h-8 w-auto brightness-0 invert">
             <div>
-                <p class="font-bold text-lg leading-tight">{{ $siteSettings['site_name'] ?? 'Alihgae' }}</p>
-                <p class="text-xs text-blue-200">
+                <p class="font-bold text-sm leading-tight">{{ $siteSettings['site_name'] ?? 'Alihgae' }}</p>
+                <p class="text-xs text-green-300">
                     @if(Auth::user()->role === 'perusahaan') Dashboard Perusahaan
                     @elseif(Auth::user()->role === 'admin') Admin Panel
                     @else Dashboard Pelamar @endif
@@ -31,94 +30,97 @@
         </a>
     </div>
 
-    <nav class="flex-1 p-4 space-y-1">
+    {{-- Nav --}}
+    <nav class="flex-1 p-3 space-y-0.5 overflow-y-auto">
         @if(Auth::user()->role === 'pelamar')
-            <a href="{{ route('pelamar.dashboard') }}" class="sidebar-link {{ request()->routeIs('pelamar.dashboard') ? 'active' : 'text-blue-100' }}">
-                <i class="fas fa-home w-5"></i> Dashboard
-            </a>
-            <a href="{{ route('pelamar.profil') }}" class="sidebar-link {{ request()->routeIs('pelamar.profil') ? 'active' : 'text-blue-100' }}">
-                <i class="fas fa-user w-5"></i> Profil Saya
-            </a>
-            <a href="{{ route('pelamar.riwayat') }}" class="sidebar-link {{ request()->routeIs('pelamar.riwayat') ? 'active' : 'text-blue-100' }}">
-                <i class="fas fa-file-alt w-5"></i> Riwayat Lamaran
-            </a>
-            <a href="{{ route('lowongan') }}" class="sidebar-link text-blue-100">
-                <i class="fas fa-briefcase w-5"></i> Cari Lowongan
-            </a>
+            @php $links = [
+                ['route' => 'pelamar.dashboard', 'icon' => 'fas fa-home', 'label' => 'Dashboard'],
+                ['route' => 'pelamar.profil',    'icon' => 'fas fa-user', 'label' => 'Profil Saya'],
+                ['route' => 'pelamar.riwayat',   'icon' => 'fas fa-file-alt', 'label' => 'Riwayat Lamaran'],
+                ['route' => 'lowongan',           'icon' => 'fas fa-briefcase', 'label' => 'Cari Lowongan'],
+            ]; @endphp
         @elseif(Auth::user()->role === 'perusahaan')
-            <a href="{{ route('perusahaan.dashboard') }}" class="sidebar-link {{ request()->routeIs('perusahaan.dashboard') ? 'active' : 'text-blue-100' }}">
-                <i class="fas fa-chart-line w-5"></i> Dashboard
-            </a>
-            <a href="{{ route('perusahaan.lowongan.create') }}" class="sidebar-link {{ request()->routeIs('perusahaan.lowongan.create') ? 'active' : 'text-blue-100' }}">
-                <i class="fas fa-plus-circle w-5"></i> Buat Lowongan
-            </a>
-            <a href="{{ route('perusahaan.profil.edit') }}" class="sidebar-link {{ request()->routeIs('perusahaan.profil.edit') ? 'active' : 'text-blue-100' }}">
-                <i class="fas fa-building w-5"></i> Profil Perusahaan
-            </a>
-            <a href="{{ route('perusahaan.berita.request') }}" class="sidebar-link {{ request()->routeIs('perusahaan.berita.*') ? 'active' : 'text-blue-100' }}">
-                <i class="fas fa-newspaper w-5"></i> Request Berita
-            </a>
+            @php $links = [
+                ['route' => 'perusahaan.dashboard',     'icon' => 'fas fa-chart-line',  'label' => 'Dashboard'],
+                ['route' => 'perusahaan.lowongan.create','icon' => 'fas fa-plus-circle', 'label' => 'Buat Lowongan'],
+                ['route' => 'perusahaan.profil.edit',   'icon' => 'fas fa-building',    'label' => 'Profil Perusahaan'],
+                ['route' => 'perusahaan.berita.request','icon' => 'fas fa-newspaper',   'label' => 'Request Berita'],
+            ]; @endphp
         @elseif(Auth::user()->role === 'admin')
-            <a href="{{ route('admin.custom.dashboard') }}" class="sidebar-link {{ request()->routeIs('admin.custom.dashboard') ? 'active' : 'text-blue-100' }}">
-                <i class="fas fa-chart-pie w-5"></i> Dashboard
-            </a>
-            <a href="{{ route('admin.berita.index') }}" class="sidebar-link {{ request()->routeIs('admin.berita.*') ? 'active' : 'text-blue-100' }}">
-                <i class="fas fa-newspaper w-5"></i> Kelola Berita
-            </a>
-            <a href="{{ route('admin.berita.requests') }}" class="sidebar-link {{ request()->routeIs('admin.berita.requests*') ? 'active' : 'text-blue-100' }}">
-                <i class="fas fa-inbox w-5"></i> Request Sponsor
-                @php $pending = \App\Models\BeritaRequest::where('status','pending')->count() @endphp
-                @if($pending > 0)<span class="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">{{ $pending }}</span>@endif
-            </a>
-            <a href="{{ route('admin.settings') }}" class="sidebar-link {{ request()->routeIs('admin.settings*') ? 'active' : 'text-blue-100' }}">
-                <i class="fas fa-cog w-5"></i> Pengaturan Situs
-            </a>
-            <a href="/admin" class="sidebar-link text-blue-100">
-                <i class="fas fa-tools w-5"></i> Filament Admin
-            </a>
+            @php $links = [
+                ['route' => 'admin.custom.dashboard', 'icon' => 'fas fa-chart-pie',  'label' => 'Dashboard'],
+                ['route' => 'admin.berita.index',     'icon' => 'fas fa-newspaper',  'label' => 'Kelola Berita'],
+                ['route' => 'admin.berita.requests',  'icon' => 'fas fa-inbox',      'label' => 'Request Sponsor'],
+                ['route' => 'admin.settings',         'icon' => 'fas fa-cog',        'label' => 'Pengaturan Situs'],
+            ]; @endphp
         @endif
+
+        @foreach($links as $link)
+        <a href="{{ route($link['route']) }}"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150
+                  {{ request()->routeIs(str_replace('.', '.*', explode('.', $link['route'])[0]).'.*') && str_contains($link['route'], '.') && request()->routeIs($link['route'])
+                     ? 'bg-white text-green-800 shadow font-semibold'
+                     : (request()->url() === route($link['route']) ? 'bg-white text-green-800 shadow font-semibold' : 'text-green-100 hover:bg-white/15') }}">
+            <i class="{{ $link['icon'] }} w-4 text-center"></i>
+            {{ $link['label'] }}
+            @if($link['route'] === 'admin.berita.requests')
+                @php try { $pc = \App\Models\BeritaRequest::where('status','pending')->count(); } catch(\Exception $e) { $pc = 0; } @endphp
+                @if($pc > 0)
+                    <span class="ml-auto bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">{{ $pc }}</span>
+                @endif
+            @endif
+        </a>
+        @endforeach
     </nav>
 
-    <div class="p-4 border-t border-white/10">
-        <div class="flex items-center gap-3 mb-3">
-            <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center font-bold text-sm">
+    {{-- User Info + Logout --}}
+    <div class="p-3 border-t border-white/10">
+        <div class="flex items-center gap-2 mb-2 px-2">
+            <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-sm flex-shrink-0">
                 {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
             </div>
-            <div>
-                <p class="text-sm font-semibold leading-tight">{{ Str::limit(Auth::user()->name, 20) }}</p>
-                <p class="text-xs text-blue-200">{{ Auth::user()->email }}</p>
+            <div class="min-w-0">
+                <p class="text-xs font-semibold truncate">{{ Auth::user()->name }}</p>
+                <p class="text-xs text-green-300 truncate">{{ Auth::user()->email }}</p>
             </div>
         </div>
+        <a href="{{ route('beranda') }}" class="flex items-center gap-2 px-3 py-2 text-green-200 hover:bg-white/10 rounded-xl text-xs transition mb-1">
+            <i class="fas fa-globe w-4 text-center"></i> Lihat Website
+        </a>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button class="w-full text-left sidebar-link text-blue-100 hover:bg-red-500/20 hover:text-red-200 text-sm">
-                <i class="fas fa-sign-out-alt w-5"></i> Keluar
+            <button class="w-full flex items-center gap-2 px-3 py-2 text-green-200 hover:bg-red-500/20 hover:text-red-300 rounded-xl text-xs transition">
+                <i class="fas fa-sign-out-alt w-4 text-center"></i> Keluar
             </button>
         </form>
     </div>
 </aside>
 
-{{-- MAIN CONTENT --}}
-<div class="ml-64 flex-1 flex flex-col min-h-screen">
-    <header class="bg-white shadow-sm px-6 py-4 flex justify-between items-center sticky top-0 z-20">
+{{-- MAIN --}}
+<div class="ml-60 flex-1 flex flex-col min-h-screen">
+    <header class="bg-white shadow-sm px-6 py-4 sticky top-0 z-20 border-b border-gray-100">
         <div>
             <h1 class="text-lg font-bold text-gray-800">@yield('page-title', 'Dashboard')</h1>
             <p class="text-xs text-gray-400">@yield('page-subtitle', '')</p>
-        </div>
-        <div class="flex items-center gap-3 text-sm text-gray-600">
-            <a href="{{ route('beranda') }}" class="hover:text-blue-600"><i class="fas fa-globe"></i> Lihat Website</a>
         </div>
     </header>
 
     <main class="flex-1 p-6">
         @if(session('success'))
-            <div class="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl flex items-center gap-2">
+            <div class="mb-4 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl flex items-center gap-2 text-sm">
                 <i class="fas fa-check-circle"></i> {{ session('success') }}
             </div>
         @endif
         @if(session('error'))
-            <div class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl flex items-center gap-2">
+            <div class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl flex items-center gap-2 text-sm">
                 <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+            </div>
+        @endif
+        @if($errors->any())
+            <div class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
+                <ul class="list-disc list-inside space-y-1">
+                    @foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach
+                </ul>
             </div>
         @endif
         @yield('content')

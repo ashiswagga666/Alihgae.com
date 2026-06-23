@@ -9,7 +9,7 @@
             <i class="fas fa-inbox mr-1"></i>Request Sponsor
             @if($pendingRequests > 0)<span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">{{ $pendingRequests }}</span>@endif
         </a>
-        <a href="{{ route('admin.berita.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-700 transition">+ Tulis Berita</a>
+        <a href="{{ route('admin.berita.create') }}" class="bg-green-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-green-700 transition">+ Tulis Berita</a>
     </div>
 </div>
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
@@ -19,7 +19,7 @@
             @if($b->thumbnail)
                 <img src="{{ asset('storage/'.$b->thumbnail) }}" class="w-14 h-14 object-cover rounded-xl flex-shrink-0">
             @else
-                <div class="w-14 h-14 bg-blue-50 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">📰</div>
+                <div class="w-14 h-14 bg-green-50 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">📰</div>
             @endif
             <div>
                 <p class="font-semibold text-gray-800 text-sm">{{ $b->judul }}</p>
@@ -34,7 +34,7 @@
             @php $sc = match($b->status) { 'published' => 'bg-green-100 text-green-700', 'draft' => 'bg-gray-100 text-gray-500', default => 'bg-yellow-100 text-yellow-700' } @endphp
             <span class="text-xs px-2 py-1 rounded-full {{ $sc }}">{{ ucfirst($b->status) }}</span>
             <a href="{{ route('berita.show', $b->slug) }}" target="_blank" class="text-xs bg-gray-50 text-gray-600 px-3 py-1.5 rounded-lg hover:bg-gray-100 transition">Lihat</a>
-            <a href="{{ route('admin.berita.edit', $b->id) }}" class="text-xs bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition">Edit</a>
+            <a href="{{ route('admin.berita.edit', $b->id) }}" class="text-xs bg-green-50 text-green-600 px-3 py-1.5 rounded-lg hover:bg-green-100 transition">Edit</a>
             <form method="POST" action="{{ route('admin.berita.destroy', $b->id) }}" onsubmit="return confirm('Hapus berita ini?')">
                 @csrf @method('DELETE')
                 <button class="text-xs bg-red-50 text-red-600 px-3 py-1.5 rounded-lg hover:bg-red-100 transition">Hapus</button>

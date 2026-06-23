@@ -34,7 +34,7 @@
     <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
         <div class="flex justify-between items-center mb-4">
             <h3 class="font-bold text-gray-800">Berita Terbaru</h3>
-            <a href="{{ route('admin.berita.index') }}" class="text-sm text-blue-600 hover:underline">Kelola Semua</a>
+            <a href="{{ route('admin.berita.index') }}" class="text-sm text-green-600 hover:underline">Kelola Semua</a>
         </div>
         @foreach($beritaTerbaru as $b)
         <div class="flex justify-between items-center py-3 border-b border-gray-50 last:border-0">
@@ -46,7 +46,7 @@
             <span class="text-xs px-2 py-0.5 rounded-full {{ $sc }}">{{ ucfirst($b->status) }}</span>
         </div>
         @endforeach
-        <a href="{{ route('admin.berita.create') }}" class="mt-4 block w-full text-center bg-blue-600 text-white py-2 rounded-xl text-sm font-semibold hover:bg-blue-700 transition">+ Tulis Berita Baru</a>
+        <a href="{{ route('admin.berita.create') }}" class="mt-4 block w-full text-center bg-green-600 text-white py-2 rounded-xl text-sm font-semibold hover:bg-green-700 transition">+ Tulis Berita Baru</a>
     </div>
 
     <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">

@@ -5,6 +5,8 @@ use Illuminate\Support\Str;
 
 class Berita extends Model
 {
+    protected $table = 'berita'; // penting! tanpa ini Laravel cari "beritas"
+
     protected $fillable = [
         'judul', 'slug', 'konten', 'thumbnail', 'kategori',
         'status', 'author_id', 'company_id', 'harga_sponsor',

@@ -20,6 +20,10 @@ Route::get('/perusahaan/{id}', [PerusahaanController::class, 'detail'])->name('p
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
 Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.show');
 
+// Redirect /blog ke /berita agar tidak 404
+Route::redirect('/blog', '/berita', 301);
+Route::get('/tentang', fn() => view('tentang'))->name('tentang');
+
 // ── Auth
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

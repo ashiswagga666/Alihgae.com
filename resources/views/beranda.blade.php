@@ -81,13 +81,13 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @foreach($beritaTerbaru as $b)
             <a href="{{ route('berita.show', $b->slug) }}" class="bg-gray-50 rounded-2xl overflow-hidden hover:shadow-lg transition-all group">
-                <div class="h-40 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center overflow-hidden">
+                <div class="h-40 bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center overflow-hidden">
                     @if($b->thumbnail)
                         <img src="{{ asset('storage/'.$b->thumbnail) }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     @else <div class="text-4xl">📰</div> @endif
                 </div>
                 <div class="p-5">
-                    <h3 class="font-bold text-gray-800 text-sm group-hover:text-blue-700 transition leading-snug">{{ $b->judul }}</h3>
+                    <h3 class="font-bold text-gray-800 text-sm group-hover:text-green-700 transition leading-snug">{{ $b->judul }}</h3>
                     <p class="text-xs text-gray-400 mt-2">{{ $b->published_at?->format('d M Y') }}</p>
                 </div>
             </a>
