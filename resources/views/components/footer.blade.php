@@ -73,8 +73,24 @@
     </div>
 
     {{-- Running text --}}
-    <div class="bg-green-700 overflow-hidden py-2">
-        <div style="display:inline-flex;white-space:nowrap;animation:marquee 35s linear infinite" id="runner">
+    <style>
+        .alihgae-marquee-wrap { overflow: hidden; }
+        .alihgae-marquee-track {
+            display: inline-flex !important;
+            white-space: nowrap !important;
+            animation-name: alihgae-marquee-anim !important;
+            animation-duration: 20s !important;
+            animation-timing-function: linear !important;
+            animation-iteration-count: infinite !important;
+            will-change: transform;
+        }
+        @keyframes alihgae-marquee-anim {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+    </style>
+    <div class="bg-green-700 alihgae-marquee-wrap py-2">
+        <div class="alihgae-marquee-track" id="runner">
             @php
                 try {
                     $rb = \App\Models\Berita::where('status', 'published')
@@ -94,9 +110,3 @@
         </div>
     </div>
 </footer>
-
-@push('styles')
-<style>
-@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-</style>
-@endpush

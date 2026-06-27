@@ -47,11 +47,6 @@
 </div>
 @endif
 
-<form id="hapus-foto-form" method="POST" action="{{ route('pelamar.profil.foto.hapus') }}" class="hidden">
-    @csrf
-    @method('DELETE')
-</form>
-
 <form method="POST" action="{{ route('pelamar.profil.update') }}" enctype="multipart/form-data">
 @csrf
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
@@ -77,12 +72,6 @@
             <input type="file" name="photo" accept="image/*"
                    class="w-full text-xs text-gray-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
             <p class="text-xs text-gray-400 mt-1">JPG, PNG. Maks 2MB</p>
-            @if($profile->photo)
-            <button type="submit" form="hapus-foto-form" onclick="return confirm('Hapus foto profil?')"
-                class="mt-2 text-xs text-red-500 hover:text-red-700 font-semibold inline-flex items-center gap-1">
-                <i class="fas fa-trash-alt"></i> Hapus Foto
-            </button>
-            @endif
         </div>
 
         {{-- Upload Dokumen --}}
