@@ -21,9 +21,19 @@
             <div>
                 <input type="file" name="logo" accept="image/*" class="text-sm text-gray-500 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700">
                 <p class="text-xs text-gray-400 mt-1">JPG, PNG. Maks 2MB. Ukuran ideal: 200x200px</p>
+                @if($company->logo)
+                <button type="submit" form="hapus-logo-form" onclick="return confirm('Hapus logo perusahaan?')"
+                    class="mt-2 text-xs text-red-500 hover:text-red-700 font-semibold inline-flex items-center gap-1">
+                    <i class="fas fa-trash-alt"></i> Hapus Logo
+                </button>
+                @endif
             </div>
         </div>
     </div>
+    <form id="hapus-logo-form" method="POST" action="{{ route('perusahaan.profil.logo.hapus') }}" class="hidden">
+        @csrf
+        @method('DELETE')
+    </form>
 
     {{-- Info Utama --}}
     <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">

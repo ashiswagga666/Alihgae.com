@@ -141,6 +141,53 @@
     @yield('content')
 </main>
 
+{{-- Pop-up notifikasi aktivitas (muncul sekali, auto hilang) --}}
+@guest
+<div id="activity-toast"
+     class="fixed bottom-5 left-5 z-50 bg-white border border-gray-100 shadow-xl rounded-2xl px-4 py-3 flex items-center gap-3 max-w-xs opacity-0 translate-y-4 transition-all duration-500"
+     style="pointer-events:none">
+    <div class="w-9 h-9 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-lg flex-shrink-0">
+        🎉
+    </div>
+    <div class="leading-tight">
+        <p class="text-xs font-bold text-gray-800">Aktivitas baru!</p>
+        <p class="text-xs text-gray-500" id="activity-toast-text">Seseorang baru saja melamar kerja di Bali</p>
+    </div>
+    <button onclick="document.getElementById('activity-toast').remove()"
+            class="ml-1 text-gray-300 hover:text-gray-500 text-sm flex-shrink-0">
+        <i class="fas fa-times"></i>
+    </button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const messages = [
+            'Seseorang baru saja melamar kerja di Bali',
+            'PT Bali Digital Kreatif baru saja buka lowongan baru',
+            '3 perusahaan baru bergabung minggu ini',
+            'Lowongan Frontend Developer ramai dilamar hari ini'
+        ];
+        const toast = document.getElementById('activity-toast');
+        if (!toast) return;
+
+        toast.querySelector('#activity-toast-text').textContent =
+            messages[Math.floor(Math.random() * messages.length)];
+
+        setTimeout(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateY(0)';
+            toast.style.pointerEvents = 'auto';
+        }, 1500);
+
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(1rem)';
+            setTimeout(() => toast.remove(), 500);
+        }, 8000);
+    });
+</script>
+@endguest
+
 {{-- FOOTER --}}
 <x-footer></x-footer>
 

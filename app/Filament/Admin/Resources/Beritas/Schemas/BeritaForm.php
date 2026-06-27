@@ -48,6 +48,10 @@ class BeritaForm
                             ->directory('berita')
                             ->disk('public')
                             ->imageEditor()
+                            ->imagePreviewHeight('150')
+                            ->panelLayout('integrated')
+                            ->removeUploadedFileButtonPosition('right')
+                            ->uploadButtonPosition('left')
                             ->maxSize(2048),
                     ]),
 

@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Models\JobSeekerProfile;
 use App\Models\Lamaran;
 use App\Models\JobListing;
@@ -60,6 +61,10 @@ class PelamarController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
+            $existing = JobSeekerProfile::where('user_id', $user->id)->first();
+            if ($existing && $existing->photo && Storage::disk('public')->exists($existing->photo)) {
+                Storage::disk('public')->delete($existing->photo);
+            }
             $profileData['photo'] = $request->file('photo')->store('photos', 'public');
         }
         if ($request->hasFile('cv')) {
@@ -71,6 +76,18 @@ class PelamarController extends Controller
 
         JobSeekerProfile::updateOrCreate(['user_id' => $user->id], $profileData);
         return back()->with('success', 'Profil berhasil diperbarui!');
+    }
+
+    public function hapusFoto()
+    {
+        $profile = JobSeekerProfile::where('user_id', Auth::id())->first();
+        if ($profile && $profile->photo) {
+            if (Storage::disk('public')->exists($profile->photo)) {
+                Storage::disk('public')->delete($profile->photo);
+            }
+            $profile->update(['photo' => null]);
+        }
+        return back()->with('success', 'Foto profil berhasil dihapus.');
     }
 
     public function riwayat()

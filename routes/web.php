@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [PelamarController::class, 'dashboard'])->name('dashboard');
         Route::get('/profil', [PelamarController::class, 'profil'])->name('profil');
         Route::post('/profil', [PelamarController::class, 'updateProfil'])->name('profil.update');
+        Route::delete('/profil/foto', [PelamarController::class, 'hapusFoto'])->name('profil.foto.hapus');
         Route::get('/riwayat', [PelamarController::class, 'riwayat'])->name('riwayat');
     });
     Route::post('/lamar/{lowongan_id}', [PelamarController::class, 'lamar'])->name('lamaran.store');
@@ -58,6 +59,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [DashboardPerusahaanController::class, 'index'])->name('dashboard');
         Route::get('/profil', [DashboardPerusahaanController::class, 'editProfil'])->name('profil.edit');
         Route::post('/profil', [DashboardPerusahaanController::class, 'updateProfil'])->name('profil.update');
+        Route::delete('/profil/logo', [DashboardPerusahaanController::class, 'hapusLogo'])->name('profil.logo.hapus');
         Route::get('/lowongan/buat', [DashboardPerusahaanController::class, 'create'])->name('lowongan.create');
         Route::post('/lowongan', [DashboardPerusahaanController::class, 'store'])->name('lowongan.store');
         Route::get('/lowongan/{id}/edit', [DashboardPerusahaanController::class, 'edit'])->name('lowongan.edit');

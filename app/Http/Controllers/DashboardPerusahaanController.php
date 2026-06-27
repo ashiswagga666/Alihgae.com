@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Models\JobListing;
 use App\Models\Lamaran;
 use App\Models\Company;
@@ -55,10 +56,23 @@ class DashboardPerusahaanController extends Controller
 
         $data = $request->except(['_token', '_method', 'logo']);
         if ($request->hasFile('logo')) {
+            if ($company->logo && Storage::disk('public')->exists($company->logo)) {
+                Storage::disk('public')->delete($company->logo);
+            }
             $data['logo'] = $request->file('logo')->store('logos', 'public');
         }
         $company->update($data);
         return back()->with('success', 'Profil perusahaan berhasil diperbarui!');
+    }
+
+    public function hapusLogo()
+    {
+        $company = $this->getCompany();
+        if ($company->logo && Storage::disk('public')->exists($company->logo)) {
+            Storage::disk('public')->delete($company->logo);
+        }
+        $company->update(['logo' => null]);
+        return back()->with('success', 'Logo perusahaan berhasil dihapus.');
     }
 
     public function create() { return view('dashboard.perusahaan.lowongan.create'); }

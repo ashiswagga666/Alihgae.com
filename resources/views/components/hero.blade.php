@@ -8,9 +8,10 @@
 
     <div class="relative max-w-3xl mx-auto text-center">
 
-        <p class="inline-block text-xs font-semibold text-emerald-200 tracking-widest uppercase mb-5">
-            ✦ {{ $totalJobs }}+ Lowongan Aktif Sekarang
-        </p>
+        <span class="inline-flex items-center gap-1.5 bg-orange-500/15 border border-orange-400/40 text-orange-200 text-xs font-bold tracking-wide px-4 py-1.5 rounded-full mb-5">
+            <span class="w-1.5 h-1.5 bg-orange-400 rounded-full animate-pulse"></span>
+            {{ $totalJobs }}+ Lowongan Aktif Sekarang
+        </span>
 
         <h1 class="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-3">
             {{ $siteSettings['hero_title'] ?? 'Temukan Karir Impianmu' }}

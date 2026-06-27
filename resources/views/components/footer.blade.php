@@ -77,20 +77,19 @@
         <div style="display:inline-flex;white-space:nowrap;animation:marquee 35s linear infinite" id="runner">
             @php
                 try {
-                    $rj = \App\Models\JobListing::with('company')
-                        ->where('is_active', true)->where('deadline', '>=', date('Y-m-d'))
-                        ->latest()->take(12)->get();
-                } catch(\Exception $e) { $rj = collect(); }
+                    $rb = \App\Models\Berita::where('status', 'published')
+                        ->latest('published_at')->take(12)->get();
+                } catch(\Exception $e) { $rb = collect(); }
             @endphp
-            @if($rj->count())
-                @foreach($rj as $j)
-                    <span class="px-8 text-white text-xs">💼 {{ $j->title }} — {{ $j->company->company_name ?? '' }} — {{ $j->location }}</span>
+            @if($rb->count())
+                @foreach($rb as $b)
+                    <span class="px-8 text-white text-xs">📰 {{ $b->judul }}</span>
                 @endforeach
-                @foreach($rj as $j)
-                    <span class="px-8 text-white text-xs">💼 {{ $j->title }} — {{ $j->company->company_name ?? '' }} — {{ $j->location }}</span>
+                @foreach($rb as $b)
+                    <span class="px-8 text-white text-xs">📰 {{ $b->judul }}</span>
                 @endforeach
             @else
-                <span class="px-8 text-white text-xs">💼 Banyak lowongan tersedia di Bali — Daftar sekarang!</span>
+                <span class="px-8 text-white text-xs">📰 Belum ada berita terbaru — pantau terus Alihgae.com!</span>
             @endif
         </div>
     </div>
