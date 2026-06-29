@@ -85,7 +85,7 @@ class DashboardPerusahaanController extends Controller
             'description' => 'required|string',
             'location' => 'required|string',
             'job_type' => 'required|in:full-time,part-time,freelance,internship',
-            'min_education' => 'required|in:SMA/SMK,D3,S1,S2,S3',
+            'min_education' => 'required|in:D3,S1,S2,S3',
             'min_experience' => 'required|integer|min:0',
             'deadline' => 'required|date|after:today',
         ]);
