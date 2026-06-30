@@ -5,9 +5,17 @@
 
 @section('content')
 <div class="max-w-3xl">
+
+{{-- Form hapus logo (terpisah dari form utama) --}}
+<form id="hapus-logo-form" method="POST" action="{{ route('perusahaan.profil.logo.hapus') }}">
+    @csrf
+    @method('DELETE')
+</form>
+
 <form method="POST" action="{{ route('perusahaan.profil.update') }}" enctype="multipart/form-data">
 @csrf
 <div class="space-y-5">
+
     {{-- Logo --}}
     <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
         <h3 class="font-bold text-gray-800 mb-4"><i class="fas fa-image text-green-500 mr-2"></i>Logo Perusahaan</h3>
@@ -15,12 +23,19 @@
             <div class="w-20 h-20 rounded-xl border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden bg-gray-50">
                 @if($company->logo)
                     <img src="{{ asset('storage/'.$company->logo) }}" class="w-full h-full object-cover">
-                @else <i class="fas fa-building text-3xl text-gray-300"></i>
+                @else
+                    <i class="fas fa-building text-3xl text-gray-300"></i>
                 @endif
             </div>
             <div>
                 <input type="file" name="logo" accept="image/*" class="text-sm text-gray-500 file:mr-2 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700">
                 <p class="text-xs text-gray-400 mt-1">JPG, PNG. Maks 2MB. Ukuran ideal: 200x200px</p>
+                @if($company->logo)
+                <button type="submit" form="hapus-logo-form" onclick="return confirm('Hapus logo perusahaan?')"
+                    class="mt-2 text-xs text-red-500 hover:text-red-700 font-semibold inline-flex items-center gap-1">
+                    <i class="fas fa-trash-alt"></i> Hapus Logo
+                </button>
+                @endif
             </div>
         </div>
     </div>
@@ -44,6 +59,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Kota</label>
                 <select name="city" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-green-500 outline-none">
+                    <option value="">-- Pilih Kota --</option>
                     @foreach(['Denpasar','Badung','Gianyar','Tabanan','Buleleng','Klungkung','Karangasem','Jembrana','Bangli'] as $kota)
                         <option value="{{ $kota }}" {{ $company->city === $kota ? 'selected' : '' }}>{{ $kota }}</option>
                     @endforeach

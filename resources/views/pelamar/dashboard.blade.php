@@ -138,7 +138,7 @@
                 <p class="text-xs text-gray-500 truncate">{{ $job->company->company_name }}</p>
                 <p class="text-xs text-gray-400"><i class="fas fa-map-marker-alt"></i> {{ $job->location }}</p>
             </div>
-            <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full whitespace-nowrap">{{ $job->job_type_label }}</span>
+            <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full whitespace-nowrap">{{ $job->job_type }}</span>
         </a>
         @endforeach
     </div>

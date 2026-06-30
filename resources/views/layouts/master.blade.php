@@ -93,8 +93,14 @@
 
             {{-- Avatar + Nama --}}
             <div class="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-full px-3 py-1.5">
-                <div class="w-7 h-7 rounded-full {{ $avatarBg }} text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
-                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                <div class="w-7 h-7 rounded-full {{ $avatarBg }} text-white flex items-center justify-center font-bold text-xs flex-shrink-0 overflow-hidden">
+                    @if(Auth::user()->role === 'pelamar' && Auth::user()->profile?->photo)
+                        <img src="{{ asset('storage/'.Auth::user()->profile->photo) }}" class="w-full h-full object-cover rounded-full">
+                    @elseif(Auth::user()->role === 'perusahaan' && Auth::user()->company?->logo)
+                        <img src="{{ asset('storage/'.Auth::user()->company->logo) }}" class="w-full h-full object-cover rounded-full">
+                    @else
+                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                    @endif
                 </div>
                 <div class="hidden sm:block leading-tight">
                     <p class="font-semibold text-gray-800 text-xs">{{ Str::limit(Auth::user()->name, 15) }}</p>
